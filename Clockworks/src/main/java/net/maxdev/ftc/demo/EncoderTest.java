@@ -23,7 +23,7 @@ public class EncoderTest extends LinearOpMode {
         while (opModeIsActive()) {
             if (gamepad1.a && runtime.seconds() > 0.75) {
                 runtime.reset();
-                wheels.encoderDrive(8, 8, 8, 8, 1, 2);
+                wheels.encoderDrive(8, 8, 8, 8, 1);
             }
         }
     }

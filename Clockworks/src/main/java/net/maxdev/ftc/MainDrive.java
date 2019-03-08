@@ -32,7 +32,7 @@ public class MainDrive extends OpMode {
     }
     @Override
     public void loop() {
-        wheels.drive(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x, gamepad1.right_bumper);
+        wheels.drive(gamepad1.left_stick_x, -gamepad1.left_stick_y, gamepad1.right_stick_x, gamepad1.right_bumper);
         if (gamepad2.left_bumper) front.broom_control(-gamepad2.left_trigger, gamepad2.right_trigger);
         else front.broom_control(gamepad2.left_trigger, gamepad2.right_trigger);
 

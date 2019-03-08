@@ -58,10 +58,10 @@ public class MecanumWheels {
         motor_fl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motor_fr.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        motor_bl.setDirection(DcMotorSimple.Direction.FORWARD);
-        motor_br.setDirection(DcMotorSimple.Direction.REVERSE);
-        motor_fl.setDirection(DcMotorSimple.Direction.FORWARD);
-        motor_fr.setDirection(DcMotorSimple.Direction.REVERSE);
+        motor_bl.setDirection(DcMotorSimple.Direction.REVERSE);
+        motor_br.setDirection(DcMotorSimple.Direction.FORWARD);
+        motor_fl.setDirection(DcMotorSimple.Direction.REVERSE);
+        motor_fr.setDirection(DcMotorSimple.Direction.FORWARD);
 
         motor_bl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motor_br.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -81,10 +81,10 @@ public class MecanumWheels {
     public void drive(double x, double y, double rotation, boolean halfSpeed) {
         double[] power = new double[4];
 
-        power[0] = y + x - rotation; //back left
-        power[1] = y - x + rotation; //back right
-        power[2] = y - x - rotation; //front left
-        power[3] = y + x + rotation; //front right
+        power[0] = y - x + rotation; //back left
+        power[1] = y + x - rotation; //back right
+        power[2] = y + x + rotation; //front left
+        power[3] = y - x - rotation; //front right
 
         normalizeMecanum(power);
 
@@ -108,51 +108,29 @@ public class MecanumWheels {
         power[3] = Math.max(Math.min(power[3], 1), -1);
     }
     public void encoderDrive(double backLeftInches, double backRightInches, double frontLeftInches,
-                             double frontRightInches, double maxSpeed, double timeoutInSeconds) {
-        double a, b, c, d;
-        double[] speed = new double[4];
-        double[] error = new double[4];
-        ElapsedTime runtime = new ElapsedTime();
+                             double frontRightInches, double maxSpeed) {
+        motor_bl.setMode(DcMotor.RunMode.RUN_TO_POSITION); motor_br.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motor_fl.setMode(DcMotor.RunMode.RUN_TO_POSITION); motor_fr.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        a = motor_fr.getCurrentPosition() + (int) (frontRightInches * COUNTS_PER_INCH);
-        b = motor_fl.getCurrentPosition() + (int) (frontLeftInches * COUNTS_PER_INCH);
-        c = motor_br.getCurrentPosition() + (int) (backRightInches * COUNTS_PER_INCH);
-        d = motor_bl.getCurrentPosition() + (int) (backLeftInches * COUNTS_PER_INCH);
+        motor_bl.setTargetPosition(motor_bl.getCurrentPosition() + (int)(backLeftInches * COUNTS_PER_INCH));
+        motor_br.setTargetPosition(motor_br.getCurrentPosition() + (int)(backRightInches * COUNTS_PER_INCH));
+        motor_fl.setTargetPosition(motor_fl.getCurrentPosition() + (int)(frontLeftInches * COUNTS_PER_INCH));
+        motor_fr.setTargetPosition(motor_fr.getCurrentPosition() + (int)(frontRightInches * COUNTS_PER_INCH));
 
-        runtime.reset();
-        while (runtime.seconds() < timeoutInSeconds && (Math.abs(motor_fr.getCurrentPosition() - a) >= DRIVE_THRESHOLD || Math.abs(motor_fl.getCurrentPosition() - b) >= DRIVE_THRESHOLD
-                || Math.abs(motor_br.getCurrentPosition() - c) >= DRIVE_THRESHOLD || Math.abs(motor_bl.getCurrentPosition() - d) >= DRIVE_THRESHOLD)) {
-            error[0] = a - motor_fr.getCurrentPosition();
-            speed[0] = Range.clip(error[0] * P_DRIVE_COEFF, -maxSpeed, maxSpeed);
-            error[1] = b - motor_fl.getCurrentPosition();
-            speed[1] = Range.clip(error[1] * P_DRIVE_COEFF, -maxSpeed, maxSpeed);
-            error[2] = c - motor_br.getCurrentPosition();
-            speed[2] = Range.clip(error[2] * P_DRIVE_COEFF, -maxSpeed, maxSpeed);
-            error[3] = d - motor_bl.getCurrentPosition();
-            speed[3] = Range.clip(error[3] * P_DRIVE_COEFF, -maxSpeed, maxSpeed);
+        ElapsedTime runtime = new ElapsedTime(); runtime.reset();
 
-            motor_fr.setPower(speed[0]);
-            motor_fl.setPower(speed[1]);
-            motor_br.setPower(speed[2]);
-            motor_bl.setPower(speed[3]);
-
-            telemetry.addLine()
-                    .addData("FL_CP", motor_fl.getCurrentPosition())
-                    .addData("FR_CP", motor_fr.getCurrentPosition())
-                    .addData("BL_CP", motor_bl.getCurrentPosition())
-                    .addData("BR_CP", motor_br.getCurrentPosition());
-            telemetry.addLine()
-                    .addData("FL_TP", b)
-                    .addData("FR_TP", a)
-                    .addData("BL_TP", d)
-                    .addData("BR_TP", c);
-            telemetry.update();
-        }
-
-        motor_fr.setPower(0);
-        motor_fl.setPower(0);
-        motor_br.setPower(0);
-        motor_bl.setPower(0);
+        motor_bl.setPower(maxSpeed / 2); motor_br.setPower(maxSpeed / 2);
+        motor_fl.setPower(maxSpeed / 2); motor_fr.setPower(maxSpeed / 2);
+        while (runtime.seconds() < 0.7);
+        motor_bl.setPower(maxSpeed); motor_br.setPower(maxSpeed);
+        motor_fl.setPower(maxSpeed); motor_fr.setPower(maxSpeed);
+        while (Math.abs(motor_bl.getCurrentPosition() - motor_bl.getTargetPosition()) > 150 || Math.abs(motor_br.getCurrentPosition() - motor_br.getTargetPosition()) > 150
+            || Math.abs(motor_fl.getCurrentPosition() - motor_fl.getTargetPosition()) > 150 || Math.abs(motor_fr.getCurrentPosition() - motor_fr.getTargetPosition()) > 150);
+        motor_bl.setPower(maxSpeed / 2); motor_br.setPower(maxSpeed / 2);
+        motor_fl.setPower(maxSpeed / 2); motor_fr.setPower(maxSpeed / 2);
+        while (motor_bl.isBusy() || motor_br.isBusy() || motor_fl.isBusy() || motor_fr.isBusy());
+        motor_bl.setPower(0); motor_br.setPower(0);
+        motor_fl.setPower(0); motor_fr.setPower(0);
     }
 
     private double getAbsoluteHeading() {
