@@ -107,19 +107,19 @@ public class MecanumWheels {
         power[3] = Math.max(Math.min(power[3], 1), -1);
     }
     public void encoderDrive(double backLeftInches, double backRightInches, double frontLeftInches,
-                             double frontRightInches, double maxSpeed, double timeoutInSeconds, LinearOpMode opMode) {
+                             double frontRightInches, double maxSpeed, double timeoutInSeconds) {
         double a, b, c, d;
         double[] speed = new double[4];
         double[] error = new double[4];
         ElapsedTime runtime = new ElapsedTime();
 
-        a = motor_fr.getCurrentPosition() + (int) (frontRightInches * countsPerInch);
-        b = motor_fl.getCurrentPosition() + (int) (frontLeftInches * countsPerInch);
-        c = motor_br.getCurrentPosition() + (int) (backRightInches * countsPerInch);
-        d = motor_bl.getCurrentPosition() + (int) (backLeftInches * countsPerInch);
+        a = motor_fr.getCurrentPosition() + (int) (frontRightInches /* countsPerInch */ );
+        b = motor_fl.getCurrentPosition() + (int) (frontLeftInches /* countsPerInch */ );
+        c = motor_br.getCurrentPosition() + (int) (backRightInches /* countsPerInch */ );
+        d = motor_bl.getCurrentPosition() + (int) (backLeftInches /* countsPerInch */ );
 
         runtime.reset();
-        while (opMode.opModeIsActive() && runtime.seconds() < timeoutInSeconds && (Math.abs(motor_fr.getCurrentPosition() - a) >= driveThreshold || Math.abs(motor_fl.getCurrentPosition() - b) >= driveThreshold
+        while (runtime.seconds() < timeoutInSeconds && (Math.abs(motor_fr.getCurrentPosition() - a) >= driveThreshold || Math.abs(motor_fl.getCurrentPosition() - b) >= driveThreshold
                 || Math.abs(motor_br.getCurrentPosition() - c) >= driveThreshold || Math.abs(motor_bl.getCurrentPosition() - d) >= driveThreshold)) {
             error[0] = a - motor_fr.getCurrentPosition();
             speed[0] = Range.clip(error[0] * driveCoef, -maxSpeed, maxSpeed);
@@ -185,5 +185,14 @@ public class MecanumWheels {
             heading = getRelativeHeading();
             gyroCorrect(targetDegrees, error, heading, 0.1, maxSpeed - 0.1); //
         }
+    }
+
+    public void debug() {
+        telemetry.addLine()
+                .addData("BackLeftEnc", motor_bl.getCurrentPosition())
+                .addData("BackRightEnc", motor_br.getCurrentPosition());
+        telemetry.addLine()
+                .addData("FrontLeftEnc", motor_fl.getCurrentPosition())
+                .addData("FrontRightEnc", motor_fr.getCurrentPosition());
     }
 }

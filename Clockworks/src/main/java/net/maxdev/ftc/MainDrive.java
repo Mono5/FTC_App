@@ -45,8 +45,9 @@ public class MainDrive extends OpMode {
         back.elevatorControl(gamepad1.left_bumper, gamepad1.left_trigger);
         front.slide_pEnd();
 
-        front.debug();
-        back.debug();
+        //front.debug();
+        //back.debug();
+        wheels.debug();
         telemetry.update();
     }
     @Override
