@@ -43,6 +43,7 @@ public class MainDrive extends OpMode {
         }
         front.slide_extension(gamepad2.a, gamepad2.left_stick_y);
         back.elevatorControl(gamepad1.left_bumper, gamepad1.left_trigger);
+        front.slide_pEnd();
 
         front.debug();
         back.debug();

@@ -28,7 +28,7 @@ public class FrontControl {
         slide_d.setDirection(DcMotorSimple.Direction.FORWARD);
         slide_d.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         slide_d.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        slide_d.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        slide_d.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         slide_e.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         slide_e.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -66,10 +66,14 @@ public class FrontControl {
             slide_d.setTargetPosition(-800);
             slide_d.setPower(0.8);
         } else if (position == 5) {
-            slide_d.setTargetPosition(-1100);
+            slide_d.setTargetPosition(-1000);
             slide_d.setPower(0.4);
         }
         if (position <= 5 && position >= 0) oldPosition = position;
+    }
+
+    public void slide_pEnd() {
+        if (slide_d.getTargetPosition() == slide_d.getCurrentPosition()) slide_d.setPower(0.8);
     }
 
     public void slide_extension(boolean free, double power) {
