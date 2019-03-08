@@ -23,9 +23,10 @@ import java.util.concurrent.TimeUnit;
 public class MecanumWheels {
     private DcMotor motor_bl = null; private DcMotor motor_br = null;
     private DcMotor motor_fl = null; private DcMotor motor_fr = null;
-    private static double countsPerInch = 1120 / (4 * Math.PI);
-    private static double driveCoef = 0.06;
-    private static int driveThreshold = (int) (0.2 * countsPerInch);
+    private static final double DRIVE_GEAR_REDUCTION = 1;
+    private static final double COUNTS_PER_INCH = (1120 * DRIVE_GEAR_REDUCTION) / (4 * Math.PI);
+    private final int DRIVE_THRESHOLD = (int) (0.2 * COUNTS_PER_INCH);
+    private final static double P_DRIVE_COEFF = 0.06;
     private BNO055IMU imu = null;
     private double headingResetValue;
     private Servo marker = null;
@@ -113,22 +114,22 @@ public class MecanumWheels {
         double[] error = new double[4];
         ElapsedTime runtime = new ElapsedTime();
 
-        a = 0 - (motor_fr.getCurrentPosition() + (int) (frontRightInches * countsPerInch));
-        b = 0 - (motor_fl.getCurrentPosition() + (int) (frontLeftInches * countsPerInch));
-        c = 0 - (motor_br.getCurrentPosition() + (int) (backRightInches * countsPerInch));
-        d = 0 - (motor_bl.getCurrentPosition() + (int) (backLeftInches * countsPerInch));
+        a = motor_fr.getCurrentPosition() + (int) (frontRightInches * COUNTS_PER_INCH);
+        b = motor_fl.getCurrentPosition() + (int) (frontLeftInches * COUNTS_PER_INCH);
+        c = motor_br.getCurrentPosition() + (int) (backRightInches * COUNTS_PER_INCH);
+        d = motor_bl.getCurrentPosition() + (int) (backLeftInches * COUNTS_PER_INCH);
 
         runtime.reset();
-        while (runtime.seconds() < timeoutInSeconds && (Math.abs(motor_fr.getCurrentPosition() - a) >= driveThreshold || Math.abs(motor_fl.getCurrentPosition() - b) >= driveThreshold
-                || Math.abs(motor_br.getCurrentPosition() - c) >= driveThreshold || Math.abs(motor_bl.getCurrentPosition() - d) >= driveThreshold)) {
+        while (runtime.seconds() < timeoutInSeconds && (Math.abs(motor_fr.getCurrentPosition() - a) >= DRIVE_THRESHOLD || Math.abs(motor_fl.getCurrentPosition() - b) >= DRIVE_THRESHOLD
+                || Math.abs(motor_br.getCurrentPosition() - c) >= DRIVE_THRESHOLD || Math.abs(motor_bl.getCurrentPosition() - d) >= DRIVE_THRESHOLD)) {
             error[0] = a - motor_fr.getCurrentPosition();
-            speed[0] = Range.clip(error[0] * driveCoef, -maxSpeed, maxSpeed);
+            speed[0] = Range.clip(error[0] * P_DRIVE_COEFF, -maxSpeed, maxSpeed);
             error[1] = b - motor_fl.getCurrentPosition();
-            speed[1] = Range.clip(error[1] * driveCoef, -maxSpeed, maxSpeed);
+            speed[1] = Range.clip(error[1] * P_DRIVE_COEFF, -maxSpeed, maxSpeed);
             error[2] = c - motor_br.getCurrentPosition();
-            speed[2] = Range.clip(error[2] * driveCoef, -maxSpeed, maxSpeed);
+            speed[2] = Range.clip(error[2] * P_DRIVE_COEFF, -maxSpeed, maxSpeed);
             error[3] = d - motor_bl.getCurrentPosition();
-            speed[3] = Range.clip(error[3] * driveCoef, -maxSpeed, maxSpeed);
+            speed[3] = Range.clip(error[3] * P_DRIVE_COEFF, -maxSpeed, maxSpeed);
 
             motor_fr.setPower(speed[0]);
             motor_fl.setPower(speed[1]);
