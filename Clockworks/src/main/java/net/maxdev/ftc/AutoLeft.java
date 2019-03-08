@@ -39,6 +39,7 @@ public class AutoLeft extends LinearOpMode {
         //back.elevatorControl(false, 0.6);
 
         if (detector.getLocation() < 310 && detector.getLocation() > 270) {
+            detector.enable(false);
             wheels.encoderDrive(-15000, -15000, -15000, -15000, 0.7, 4);
             goldStatus = true;
 
