@@ -28,7 +28,7 @@ public class FrontControl {
         slide_d.setDirection(DcMotorSimple.Direction.FORWARD);
         slide_d.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         slide_d.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        slide_d.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        slide_d.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
         slide_e.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         slide_e.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -54,28 +54,22 @@ public class FrontControl {
             slide_d.setTargetPosition(0);
             slide_d.setPower(0.4);
         } else if (position == 1) {
-            slide_d.setTargetPosition(200);
+            slide_d.setTargetPosition(-220);
+            slide_d.setPower(0.8);
+        } else if (position == 2) {
+            slide_d.setTargetPosition(-400);
             slide_d.setPower(0.5);
-        } else if (position == 2 && oldPosition == 1) {
-            slide_d.setTargetPosition(230);
-            slide_d.setPower(0.4);
-        } else if (position == 2 && oldPosition == 3) {
-            slide_d.setTargetPosition(230);
-            slide_d.setPower(0.7);
         } else if (position == 3) {
-            slide_d.setTargetPosition(370);
-            slide_d.setPower(0.5);
-        } else if (position == 4 && oldPosition == 5) {
-            slide_d.setTargetPosition(545);
+            slide_d.setTargetPosition(-570);
             slide_d.setPower(0.7);
-        } else if (position == 4 && oldPosition == 3) {
-            slide_d.setTargetPosition(545);
-            slide_d.setPower(0.4);
+        } else if (position == 4) {
+            slide_d.setTargetPosition(-800);
+            slide_d.setPower(0.8);
         } else if (position == 5) {
-            slide_d.setTargetPosition(725);
-            slide_d.setPower(0.2);
+            slide_d.setTargetPosition(-1100);
+            slide_d.setPower(0.4);
         }
-        if (position <=5 && position >= 0) oldPosition = position;
+        if (position <= 5 && position >= 0) oldPosition = position;
     }
 
     public void slide_extension(boolean free, double power) {
