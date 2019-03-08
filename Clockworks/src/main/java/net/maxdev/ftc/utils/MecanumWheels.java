@@ -113,10 +113,10 @@ public class MecanumWheels {
         double[] error = new double[4];
         ElapsedTime runtime = new ElapsedTime();
 
-        a = motor_fr.getCurrentPosition() + (int) (frontRightInches /* countsPerInch */ );
-        b = motor_fl.getCurrentPosition() + (int) (frontLeftInches /* countsPerInch */ );
-        c = motor_br.getCurrentPosition() + (int) (backRightInches /* countsPerInch */ );
-        d = motor_bl.getCurrentPosition() + (int) (backLeftInches /* countsPerInch */ );
+        a = 0 - (motor_fr.getCurrentPosition() + (int) (frontRightInches * countsPerInch));
+        b = 0 - (motor_fl.getCurrentPosition() + (int) (frontLeftInches * countsPerInch));
+        c = 0 - (motor_br.getCurrentPosition() + (int) (backRightInches * countsPerInch));
+        d = 0 - (motor_bl.getCurrentPosition() + (int) (backLeftInches * countsPerInch));
 
         runtime.reset();
         while (runtime.seconds() < timeoutInSeconds && (Math.abs(motor_fr.getCurrentPosition() - a) >= driveThreshold || Math.abs(motor_fl.getCurrentPosition() - b) >= driveThreshold
@@ -134,6 +134,18 @@ public class MecanumWheels {
             motor_fl.setPower(speed[1]);
             motor_br.setPower(speed[2]);
             motor_bl.setPower(speed[3]);
+
+            telemetry.addLine()
+                    .addData("FL_CP", motor_fl.getCurrentPosition())
+                    .addData("FR_CP", motor_fr.getCurrentPosition())
+                    .addData("BL_CP", motor_bl.getCurrentPosition())
+                    .addData("BR_CP", motor_br.getCurrentPosition());
+            telemetry.addLine()
+                    .addData("FL_TP", b)
+                    .addData("FR_TP", a)
+                    .addData("BL_TP", d)
+                    .addData("BR_TP", c);
+            telemetry.update();
         }
 
         motor_fr.setPower(0);

@@ -35,7 +35,7 @@ public class AutoLeft extends LinearOpMode {
         //back.elevatorControl(true, 0.8);
         //sleep(4000);
 
-        wheels.encoderDrive(-1000, -1000, -1000, -1000, 0.7, 4);
+        wheels.encoderDrive(-250, -250, -250, -250, 0.7, 40);
         //back.elevatorControl(false, 0.6);
 
         //if (detector.getLocation() < 310 && detector.getLocation() > 270) {
