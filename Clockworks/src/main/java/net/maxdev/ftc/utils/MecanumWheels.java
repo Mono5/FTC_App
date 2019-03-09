@@ -133,6 +133,15 @@ public class MecanumWheels {
         motor_fl.setPower(0); motor_fr.setPower(0);
     }
 
+    public void timeDrive(double time, int leftDir1, int rightDir1, int leftDir2, int rightDir2, double power) {
+        ElapsedTime runtime = new ElapsedTime();
+        runtime.reset();
+        motor_bl.setPower(leftDir1 * power); motor_fl.setPower(leftDir2 * power);
+        motor_fr.setPower(rightDir2 * power); motor_br.setPower(rightDir1 * power);
+        while (runtime.seconds() < time);
+        motor_br.setPower(0); motor_bl.setPower(0); motor_fr.setPower(0); motor_fl.setPower(0);
+    }
+
     private double getAbsoluteHeading() {
         return imu.getAngularOrientation(AxesReference.INTRINSIC , AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
     }

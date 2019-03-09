@@ -26,7 +26,7 @@ public class AutoLeft extends LinearOpMode {
         detector.init(hardwareMap, telemetry);
 
         waitForStart();
-        //detector.enable(true);
+        detector.enable(true);
         //back.elevatorOverride(-75, 1);
         sleep(750);
         //back.lockControl(true);
@@ -35,15 +35,24 @@ public class AutoLeft extends LinearOpMode {
         //back.elevatorControl(true, 0.8);
         //sleep(4000);
 
-        wheels.encoderDrive(-250, -250, -250, -250, 0.7);
+        wheels.timeDrive(0.5, 1, 1, 1, 1, 0.3);
         //back.elevatorControl(false, 0.6);
-
-        //if (detector.getLocation() < 310 && detector.getLocation() > 270) {
-        //    detector.enable(false);
-        //    wheels.encoderDrive(-15000, -15000, -15000, -15000, 0.7, 4);
-        //    goldStatus = true;
-
-        //}
-        //detector.enable(false);
+        sleep(1000);
+        if (detector.getLocation() < 330 && detector.getLocation() > 250) {
+            detector.enable(false);
+            wheels.timeDrive(0.5, 1, 1, 1, 1, 0.5);
+            goldStatus = true;
+        } else {
+            wheels.timeDrive(0.5, 1, -1, -1, 1, 0.35);
+            if (detector.getLocation() < 330 && detector.getLocation() > 250) {
+                detector.enable(false);
+                wheels.timeDrive(0.5, 1, 1, 1, 1, 0.5);
+                goldStatus = true;
+            } else {
+                wheels.timeDrive(1, -1, 1, 1, -1, 0.35);
+                wheels.timeDrive(0.5, 1, 1, 1, 1, 0.5);
+            }
+        }
+        detector.enable(false);
     }
 }

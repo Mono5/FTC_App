@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import net.maxdev.ftc.utils.MecanumWheels;
 
-@TeleOp(name = "EncoderTest", group = "Debugging")
+@TeleOp(name = "TimeTest", group = "Debugging")
 public class EncoderTest extends LinearOpMode {
     private MecanumWheels wheels = null;
     private ElapsedTime runtime = null;
@@ -23,7 +23,7 @@ public class EncoderTest extends LinearOpMode {
         while (opModeIsActive()) {
             if (gamepad1.a && runtime.seconds() > 0.75) {
                 runtime.reset();
-                wheels.encoderDrive(8, 8, 8, 8, 1);
+                wheels.timeDrive(1, 1, 1, 1, 1, 0.6);
             }
         }
     }
