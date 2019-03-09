@@ -44,6 +44,7 @@ public class AutoLeft extends LinearOpMode {
             goldStatus = true;
         } else {
             wheels.timeDrive(0.5, 1, -1, -1, 1, 0.35);
+            sleep(1000)
             if (detector.getLocation() < 330 && detector.getLocation() > 250) {
                 detector.enable(false);
                 wheels.timeDrive(0.5, 1, 1, 1, 1, 0.5);
