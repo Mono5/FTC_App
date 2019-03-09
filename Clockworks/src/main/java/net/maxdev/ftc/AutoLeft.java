@@ -43,7 +43,7 @@ public class AutoLeft extends LinearOpMode {
             wheels.timeDrive(0.5, 1, 1, 1, 1, 0.5);
             goldStatus = true;
         } else {
-            wheels.timeDrive(0.6, 1, -1, -1, 1, 0.4);
+            wheels.timeDrive(0.9, 1, -1, -1, 1, 0.4);
             sleep(1000);
             if (detector.getLocation() < 330 && detector.getLocation() > 250) {
                 detector.enable(false);
@@ -51,8 +51,8 @@ public class AutoLeft extends LinearOpMode {
                 goldStatus = true;
             } else {
                 detector.enable(false);
-                wheels.timeDrive(1.2, -1, 1, 1, -1, 0.4);
-                wheels.timeDrive(0.5, 1, 1, 1, 1, 0.5);
+                wheels.timeDrive(1.8, -1, 1, 1, -1, 0.4);
+                wheels.timeDrive(0.5, 1, 1, 1, 1, 0.2);
             }
         }
     }
