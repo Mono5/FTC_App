@@ -133,7 +133,7 @@ public class MecanumWheels {
         motor_fl.setPower(0); motor_fr.setPower(0);
     }
 
-    public void timeDrive(double time, int leftDir1, int rightDir1, int leftDir2, int rightDir2, double power) {
+    public void timeDrive(double time, double leftDir1, double rightDir1, double leftDir2, double rightDir2, double power) {
         ElapsedTime runtime = new ElapsedTime();
         runtime.reset();
         motor_bl.setPower(leftDir1 * power); motor_fl.setPower(leftDir2 * power);
