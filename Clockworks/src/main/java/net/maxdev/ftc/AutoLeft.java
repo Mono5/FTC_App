@@ -49,10 +49,10 @@ public class AutoLeft extends LinearOpMode {
                 wheels.timeDrive(0.5, 1, 1, 1, 1, 0.5);
                 goldStatus = true;
             } else {
+                detector.enable(false);
                 wheels.timeDrive(1, -1, 1, 1, -1, 0.35);
                 wheels.timeDrive(0.5, 1, 1, 1, 1, 0.5);
             }
         }
-        detector.enable(false);
     }
 }
