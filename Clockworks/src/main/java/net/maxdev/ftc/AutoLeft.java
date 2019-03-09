@@ -38,7 +38,7 @@ public class AutoLeft extends LinearOpMode {
         wheels.timeDrive(0.5, 1, 1, 1, 1, 0.3); // pornire
         //back.elevatorControl(false, 0.6);
         sleep(1500);
-        if (detector.getLocation() < 400 && detector.getLocation() > 200) {
+        if (detector.getLocation() < 450 && detector.getLocation() > 150) { // range mijloc
             detector.enable(false);
             wheels.timeDrive(1, 1, 1, 1, 1, 1); // aur mijloc
             goldStatus = true;
