@@ -81,10 +81,10 @@ public class MecanumWheels {
     public void drive(double x, double y, double rotation, boolean halfSpeed) {
         double[] power = new double[4];
 
-        power[0] = y - x + rotation; //back left
-        power[1] = y + x - rotation; //back right
-        power[2] = y + x + rotation; //front left
-        power[3] = y - x - rotation; //front right
+        power[0] = y + x + rotation; //back left
+        power[1] = y - x - rotation; //back right
+        power[2] = y - x + rotation; //front left
+        power[3] = y + x - rotation; //front right
 
         normalizeMecanum(power);
 

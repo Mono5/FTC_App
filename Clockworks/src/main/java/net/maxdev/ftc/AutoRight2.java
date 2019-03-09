@@ -46,7 +46,7 @@ public class AutoRight2 extends LinearOpMode {
                 wheels.encoderDrive(27, 27, 27, 27, 0.9, 3);
                 wheels.rotate(315, 0.8, 1, 3);
                 wheels.marker(true);
-                wheels.rotate(225, 0.9, 1, 3);
+                //wheels.rotate(225, 0.9, 1, 3);
             }
         }
     }

@@ -80,7 +80,7 @@ public class FrontControl {
         if (slide_e.getCurrentPosition() < -50 && power < 0) {
             slide_e.setPower(0);
             return;
-        } else if (slide_e.getCurrentPosition() > 650 && power > 0) {
+        } else if (slide_e.getCurrentPosition() > 800 && power > 0) {
             slide_e.setPower(0);
             return;
         }
