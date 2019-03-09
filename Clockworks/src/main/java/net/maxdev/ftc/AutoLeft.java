@@ -35,9 +35,9 @@ public class AutoLeft extends LinearOpMode {
         //back.elevatorControl(true, 0.8);
         //sleep(4000);
 
-//  timp, fr, rr, fl, fr, power
+//  timp, rl, rr, fl, fr, power
 
-        wheels.timeDrive(0.5, 1, 1, 1, 1, 0.3); // pornire
+        wheels.timeDrive(0.7, 1, 1, 1, 1, 0.1); // pornire
         //back.elevatorControl(false, 0.6);
         sleep(1500);
         if (detector.getLocation() < 450 && detector.getLocation() > 150) { // range mijloc
@@ -49,12 +49,12 @@ public class AutoLeft extends LinearOpMode {
             sleep(1000);
             if (detector.getLocation() < 450 && detector.getLocation() > 150) {
                 detector.enable(false);
-                wheels.timeDrive(1.5, 1, 0.5, 1, 0.5, 0.7); // aur stanga
+                wheels.timeDrive(1.2, 1, 0.2, 1, 0.2, 0.6); // aur stanga
                 goldStatus = true;
             } else {
                 detector.enable(false);
                 wheels.timeDrive(1.6, -1, 1, 1, -1, 0.4); // mutare dreapta
-                wheels.timeDrive(1.5, 0.5, 1, 0.5, 1, 0.7); // aur dreapta
+                wheels.timeDrive(1.2, 0.2, 1, 0.2, 1, 0.6); // aur dreapta
             }
         }
     }
