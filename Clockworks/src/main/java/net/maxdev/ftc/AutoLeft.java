@@ -53,7 +53,7 @@ public class AutoLeft extends LinearOpMode {
                 goldStatus = true;
             } else {
                 detector.enable(false);
-                wheels.timeDrive(1.7 -1, 1, 1, -1, 0.4); // mutare dreapta
+                wheels.timeDrive(1.7 , -1, 1, 1, -1, 0.4); // mutare dreapta
                 wheels.timeDrive(1.8, 0.9, 1, 0.6, 1, 0.6); // aur dreapta
             }
         }
