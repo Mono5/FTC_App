@@ -42,10 +42,10 @@ public class AutoLeft extends LinearOpMode {
         sleep(1500);
         if (detector.getLocation() < 450 && detector.getLocation() > 150) { // range mijloc
             detector.enable(false);
-            wheels.timeDrive(1, 1, 1, 1, 1, 0.7); // aur mijloc
+            wheels.timeDrive(0.5, 1, 1, 1, 1, 0.5); // aur mijloc
             goldStatus = true;
         } else {
-            wheels.timeDrive(0.8, 1, -1, -1, 1, 0.4); //mutare stanga
+            wheels.timeDrive(0.7, 1, -1, -1, 1, 0.4); //mutare stanga
             sleep(1000);
             if (detector.getLocation() < 450 && detector.getLocation() > 150) {
                 detector.enable(false);
