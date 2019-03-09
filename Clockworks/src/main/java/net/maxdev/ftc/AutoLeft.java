@@ -35,24 +35,24 @@ public class AutoLeft extends LinearOpMode {
         //back.elevatorControl(true, 0.8);
         //sleep(4000);
 
-        wheels.timeDrive(0.5, 1, 1, 1, 1, 0.3);
+        wheels.timeDrive(0.5, 1, 1, 1, 1, 0.3); // pornire
         //back.elevatorControl(false, 0.6);
         sleep(1500);
         if (detector.getLocation() < 400 && detector.getLocation() > 200) {
             detector.enable(false);
-            wheels.timeDrive(0.5, 1, 1, 1, 1, 0.5);
+            wheels.timeDrive(0.5, 1, 1, 1, 1, 0.5); // aur mijloc
             goldStatus = true;
         } else {
-            wheels.timeDrive(0.9, 1, -1, -1, 1, 0.4);
+            wheels.timeDrive(0.9, 1, -1, -1, 1, 0.4); //mutare stanga
             sleep(1000);
             if (detector.getLocation() < 400 && detector.getLocation() > 200) {
                 detector.enable(false);
-                wheels.timeDrive(0.8, 1, 1, 1, 1, 0.5);
+                wheels.timeDrive(0.8, 1, 1, 1, 1, 0.5); // aur stanga
                 goldStatus = true;
             } else {
                 detector.enable(false);
-                wheels.timeDrive(1.3, -1, 1, 1, -1, 0.4);
-                wheels.timeDrive(1, 1, 1, 1, 1, 0.2);
+                wheels.timeDrive(1.3, -1, 1, 1, -1, 0.4); // mutare dreapta
+                wheels.timeDrive(1, 1, 1, 1, 1, 0.2); // aur dreapta
             }
         }
     }
