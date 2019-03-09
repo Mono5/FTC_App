@@ -37,15 +37,15 @@ public class AutoLeft extends LinearOpMode {
 
         wheels.timeDrive(0.5, 1, 1, 1, 1, 0.3);
         //back.elevatorControl(false, 0.6);
-        sleep(1000);
-        if (detector.getLocation() < 330 && detector.getLocation() > 250) {
+        sleep(1500);
+        if (detector.getLocation() < 400 && detector.getLocation() > 200) {
             detector.enable(false);
             wheels.timeDrive(0.5, 1, 1, 1, 1, 0.5);
             goldStatus = true;
         } else {
             wheels.timeDrive(0.9, 1, -1, -1, 1, 0.4);
             sleep(1000);
-            if (detector.getLocation() < 330 && detector.getLocation() > 250) {
+            if (detector.getLocation() < 400 && detector.getLocation() > 200) {
                 detector.enable(false);
                 wheels.timeDrive(0.5, 1, 1, 1, 1, 0.5);
                 goldStatus = true;
