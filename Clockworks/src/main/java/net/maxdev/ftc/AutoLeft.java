@@ -47,12 +47,12 @@ public class AutoLeft extends LinearOpMode {
             sleep(1000);
             if (detector.getLocation() < 400 && detector.getLocation() > 200) {
                 detector.enable(false);
-                wheels.timeDrive(0.5, 1, 1, 1, 1, 0.5);
+                wheels.timeDrive(0.8, 1, 1, 1, 1, 0.5);
                 goldStatus = true;
             } else {
                 detector.enable(false);
-                wheels.timeDrive(1.8, -1, 1, 1, -1, 0.4);
-                wheels.timeDrive(0.5, 1, 1, 1, 1, 0.2);
+                wheels.timeDrive(1.3, -1, 1, 1, -1, 0.4);
+                wheels.timeDrive(1, 1, 1, 1, 1, 0.2);
             }
         }
     }
