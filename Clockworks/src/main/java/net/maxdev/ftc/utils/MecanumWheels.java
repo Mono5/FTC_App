@@ -26,7 +26,7 @@ public class MecanumWheels {
     private static final double DRIVE_GEAR_REDUCTION = 1;
     private static final double COUNTS_PER_INCH = (1120 * DRIVE_GEAR_REDUCTION) / (4 * Math.PI);
     private final int DRIVE_THRESHOLD = (int) (0.2 * COUNTS_PER_INCH);
-    public double P_DRIVE_COEFF = 0.001;
+    public double P_DRIVE_COEFF = 0.02;
     private BNO055IMU imu = null;
     private double headingResetValue;
     private Servo marker = null;
