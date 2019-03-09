@@ -68,10 +68,10 @@ public class MecanumWheels {
         motor_fl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motor_fr.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        motor_bl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motor_br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motor_fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motor_fr.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motor_bl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motor_br.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motor_fl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motor_fr.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         marker.setDirection(Servo.Direction.FORWARD);
         marker.setPosition(1);
