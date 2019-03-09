@@ -15,10 +15,10 @@ public class AutoLeft2 extends LinearOpMode {
     public void runOpMode() {
         wheels = new MecanumWheels();
         wheels.init(telemetry, hardwareMap);
-        detector.init(hardwareMap, telemetry);
+        //detector.init(hardwareMap, telemetry);
 
         waitForStart();
-        detector.enable(true);
+        //detector.enable(true);
         wheels.encoderDrive(8, 8, 8, 8, 0.6, 2);
     }
 }
