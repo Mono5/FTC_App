@@ -49,12 +49,12 @@ public class AutoLeft extends LinearOpMode {
             sleep(1000);
             if (detector.getLocation() < 450 && detector.getLocation() > 150) {
                 detector.enable(false);
-                wheels.timeDrive(1.2, 1, 0.2, 1, 0.2, 0.6); // aur stanga
+                wheels.timeDrive(1.8, 1, 0.2, 1, 0.2, 0.6); // aur stanga
                 goldStatus = true;
             } else {
                 detector.enable(false);
                 wheels.timeDrive(1.6, -1, 1, 1, -1, 0.4); // mutare dreapta
-                wheels.timeDrive(1.2, 0.2, 1, 0.2, 1, 0.6); // aur dreapta
+                wheels.timeDrive(1.8, 0.2, 1, 0.2, 1, 0.6); // aur dreapta
             }
         }
     }
