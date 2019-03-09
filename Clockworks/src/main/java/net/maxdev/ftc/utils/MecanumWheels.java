@@ -26,7 +26,7 @@ public class MecanumWheels {
     private static final double DRIVE_GEAR_REDUCTION = 1;
     private static final double COUNTS_PER_INCH = (1120 * DRIVE_GEAR_REDUCTION) / (4 * Math.PI);
     private final int DRIVE_THRESHOLD = (int) (0.2 * COUNTS_PER_INCH);
-    public double P_DRIVE_COEFF = 0.02;
+    public double P_DRIVE_COEFF = 0.013;
     private BNO055IMU imu = null;
     private double headingResetValue;
     private Servo marker = null;
@@ -114,10 +114,20 @@ public class MecanumWheels {
         double[] error = new double[4];
         ElapsedTime runtime = new ElapsedTime();
 
-        a = motor_fr.getCurrentPosition() + (int) (frontRightInches * COUNTS_PER_INCH);
-        b = motor_fl.getCurrentPosition() + (int) (frontLeftInches * COUNTS_PER_INCH);
-        c = motor_br.getCurrentPosition() + (int) (backRightInches * COUNTS_PER_INCH);
-        d = motor_bl.getCurrentPosition() + (int) (backLeftInches * COUNTS_PER_INCH);
+        motor_bl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor_br.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor_fl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor_fr.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        motor_bl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motor_br.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motor_fl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motor_fr.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        a = (int) (frontRightInches * COUNTS_PER_INCH);
+        b = (int) (frontLeftInches * COUNTS_PER_INCH);
+        c = (int) (backRightInches * COUNTS_PER_INCH);
+        d = (int) (backLeftInches * COUNTS_PER_INCH);
 
         runtime.reset();
         while (runtime.seconds() < timeoutInSeconds && (Math.abs(motor_fr.getCurrentPosition() - a) >= DRIVE_THRESHOLD || Math.abs(motor_fl.getCurrentPosition() - b) >= DRIVE_THRESHOLD
@@ -182,22 +192,27 @@ public class MecanumWheels {
         motor_fr.setPower(sPower); motor_br.setPower(sPower);
     }
 
-    public void rotate(double targetDegrees, double maxSpeed, double error, double timeoutInSeconds, LinearOpMode opMode) {
+    public void rotate(double targetDegrees, double maxSpeed, double error, double timeoutInSeconds) {
         double heading = getRelativeHeading();
         ElapsedTime runtime = new ElapsedTime();
 
         runtime.reset();
         while (gyroCorrect(targetDegrees, error, heading, 0.1, maxSpeed - 0.1) == 0
-                && runtime.seconds() < timeoutInSeconds && opMode.opModeIsActive()) {
+                && runtime.seconds() < timeoutInSeconds) {
             heading = getRelativeHeading();
             gyroCorrect(targetDegrees, error, heading, 0.1, maxSpeed - 0.1);
         }
-        runtime.reset(); while (runtime.seconds() < 0.5 && opMode.opModeIsActive()) {}
+        runtime.reset(); while (runtime.seconds() < 0.5) {}
         while (gyroCorrect(targetDegrees, error, heading, 0.1, maxSpeed - 0.1) == 0
-                && runtime.seconds() < timeoutInSeconds / 2 && opMode.opModeIsActive()) {
+                && runtime.seconds() < timeoutInSeconds / 2) {
             heading = getRelativeHeading();
             gyroCorrect(targetDegrees, error, heading, 0.1, maxSpeed - 0.1); //
         }
+    }
+
+    public void marker (boolean drop) {
+        if (drop) marker.setPosition(0.5);
+        else marker.setPosition(1);
     }
 
     public void debug() {
