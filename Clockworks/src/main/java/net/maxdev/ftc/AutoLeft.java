@@ -7,7 +7,7 @@ import net.maxdev.ftc.utils.BackControl;
 import net.maxdev.ftc.utils.DogeGoldVision;
 import net.maxdev.ftc.utils.MecanumWheels;
 
-@Autonomous(name = "AutoLeft", group = "Autonomous")
+@Autonomous(name = "AutoLeftTimed", group = "Autonomous")
 public class AutoLeft extends LinearOpMode {
     private MecanumWheels wheels = null;
     private BackControl back = null;

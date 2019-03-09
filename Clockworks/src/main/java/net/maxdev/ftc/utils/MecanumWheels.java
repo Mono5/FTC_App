@@ -108,29 +108,42 @@ public class MecanumWheels {
         power[3] = Math.max(Math.min(power[3], 1), -1);
     }
     public void encoderDrive(double backLeftInches, double backRightInches, double frontLeftInches,
-                             double frontRightInches, double maxSpeed) {
-        motor_bl.setMode(DcMotor.RunMode.RUN_TO_POSITION); motor_br.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motor_fl.setMode(DcMotor.RunMode.RUN_TO_POSITION); motor_fr.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                             double frontRightInches, double maxSpeed, double timeoutInSeconds) {
+        double a, b, c, d;
+        double[] speed = new double[4];
+        double[] error = new double[4];
+        ElapsedTime runtime = new ElapsedTime();
 
-        motor_bl.setTargetPosition(motor_bl.getCurrentPosition() + (int)(backLeftInches * COUNTS_PER_INCH));
-        motor_br.setTargetPosition(motor_br.getCurrentPosition() + (int)(backRightInches * COUNTS_PER_INCH));
-        motor_fl.setTargetPosition(motor_fl.getCurrentPosition() + (int)(frontLeftInches * COUNTS_PER_INCH));
-        motor_fr.setTargetPosition(motor_fr.getCurrentPosition() + (int)(frontRightInches * COUNTS_PER_INCH));
+        a = motor_fr.getCurrentPosition() + (int) (frontRightInches * COUNTS_PER_INCH);
+        b = motor_fl.getCurrentPosition() + (int) (frontLeftInches * COUNTS_PER_INCH);
+        c = motor_br.getCurrentPosition() + (int) (backRightInches * COUNTS_PER_INCH);
+        d = motor_bl.getCurrentPosition() + (int) (backLeftInches * COUNTS_PER_INCH);
 
-        ElapsedTime runtime = new ElapsedTime(); runtime.reset();
+        runtime.reset();
+        while (runtime.seconds() < timeoutInSeconds && (Math.abs(motor_fr.getCurrentPosition() - a) >= DRIVE_THRESHOLD || Math.abs(motor_fl.getCurrentPosition() - b) >= DRIVE_THRESHOLD
+                || Math.abs(motor_br.getCurrentPosition() - c) >= DRIVE_THRESHOLD || Math.abs(motor_bl.getCurrentPosition() - d) >= DRIVE_THRESHOLD)) {
+            error[0] = a - motor_fr.getCurrentPosition();
+            speed[0] = Range.clip(error[0] * P_DRIVE_COEFF, -maxSpeed, maxSpeed);
+            error[1] = b - motor_fl.getCurrentPosition();
+            speed[1] = Range.clip(error[1] * P_DRIVE_COEFF, -maxSpeed, maxSpeed);
+            error[2] = c - motor_br.getCurrentPosition();
+            speed[2] = Range.clip(error[2] * P_DRIVE_COEFF, -maxSpeed, maxSpeed);
+            error[3] = d - motor_bl.getCurrentPosition();
+            speed[3] = Range.clip(error[3] * P_DRIVE_COEFF, -maxSpeed, maxSpeed);
 
-        motor_bl.setPower(maxSpeed / 2); motor_br.setPower(maxSpeed / 2);
-        motor_fl.setPower(maxSpeed / 2); motor_fr.setPower(maxSpeed / 2);
-        while (runtime.seconds() < 0.7);
-        motor_bl.setPower(maxSpeed); motor_br.setPower(maxSpeed);
-        motor_fl.setPower(maxSpeed); motor_fr.setPower(maxSpeed);
-        while (Math.abs(motor_bl.getCurrentPosition() - motor_bl.getTargetPosition()) > 150 || Math.abs(motor_br.getCurrentPosition() - motor_br.getTargetPosition()) > 150
-            || Math.abs(motor_fl.getCurrentPosition() - motor_fl.getTargetPosition()) > 150 || Math.abs(motor_fr.getCurrentPosition() - motor_fr.getTargetPosition()) > 150);
-        motor_bl.setPower(maxSpeed / 2); motor_br.setPower(maxSpeed / 2);
-        motor_fl.setPower(maxSpeed / 2); motor_fr.setPower(maxSpeed / 2);
-        while (motor_bl.isBusy() || motor_br.isBusy() || motor_fl.isBusy() || motor_fr.isBusy());
-        motor_bl.setPower(0); motor_br.setPower(0);
-        motor_fl.setPower(0); motor_fr.setPower(0);
+            telemetry.addData("MotorPos1", "Target: " + d + "Error:" + error[3] + "Speed: " + speed[3]);
+            telemetry.update();
+
+            motor_fr.setPower(speed[0]);
+            motor_fl.setPower(speed[1]);
+            motor_br.setPower(speed[2]);
+            motor_bl.setPower(speed[3]);
+        }
+
+        motor_fr.setPower(0);
+        motor_fl.setPower(0);
+        motor_br.setPower(0);
+        motor_bl.setPower(0);
     }
 
     public void timeDrive(double time, double leftDir1, double rightDir1, double leftDir2, double rightDir2, double power) {
