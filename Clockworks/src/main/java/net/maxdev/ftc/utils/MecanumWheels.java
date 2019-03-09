@@ -26,7 +26,7 @@ public class MecanumWheels {
     private static final double DRIVE_GEAR_REDUCTION = 1;
     private static final double COUNTS_PER_INCH = (1120 * DRIVE_GEAR_REDUCTION) / (4 * Math.PI);
     private final int DRIVE_THRESHOLD = (int) (0.2 * COUNTS_PER_INCH);
-    private final static double P_DRIVE_COEFF = 0.06;
+    public double P_DRIVE_COEFF = 0.06;
     private BNO055IMU imu = null;
     private double headingResetValue;
     private Servo marker = null;
@@ -207,5 +207,7 @@ public class MecanumWheels {
         telemetry.addLine()
                 .addData("FrontLeftEnc", motor_fl.getCurrentPosition())
                 .addData("FrontRightEnc", motor_fr.getCurrentPosition());
+        telemetry.addLine()
+                .addData("P_DRIVE_COEFF", P_DRIVE_COEFF);
     }
 }
