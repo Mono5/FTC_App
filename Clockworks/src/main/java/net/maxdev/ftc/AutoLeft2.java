@@ -1,5 +1,6 @@
 package net.maxdev.ftc;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import net.maxdev.ftc.utils.BackControl;
@@ -7,6 +8,7 @@ import net.maxdev.ftc.utils.DogeGoldVision;
 import net.maxdev.ftc.utils.FrontControl;
 import net.maxdev.ftc.utils.MecanumWheels;
 
+@Autonomous(name = "AutoLeft", group = "Autonomous")
 public class AutoLeft2 extends LinearOpMode {
     private MecanumWheels wheels = null;
     private FrontControl front = null;

@@ -89,7 +89,7 @@ public class FrontControl {
         else slide_e.setPower(power);
     }
 
-    public void debug() {
+    public void debug() { // debug output
         telemetry.addLine()
                 .addData("Slide_D Encoder", slide_d.getCurrentPosition())
                 .addData("Slide_E Encoder", slide_e.getCurrentPosition());
