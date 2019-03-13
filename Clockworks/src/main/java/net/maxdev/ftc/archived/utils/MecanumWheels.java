@@ -1,9 +1,7 @@
-package net.maxdev.ftc.utils;
+package net.maxdev.ftc.archived.utils;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -12,20 +10,16 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-
-import java.util.concurrent.TimeUnit;
 
 public class MecanumWheels {
     private DcMotor motor_bl = null; private DcMotor motor_br = null;
     private DcMotor motor_fl = null; private DcMotor motor_fr = null;
     private static final double DRIVE_GEAR_REDUCTION = 1;
     private static final double COUNTS_PER_INCH = (1120 * DRIVE_GEAR_REDUCTION) / (4 * Math.PI);
-    private final int DRIVE_THRESHOLD = (int) (0.2 * COUNTS_PER_INCH);
+    private static final int DRIVE_THRESHOLD = (int) (0.2 * COUNTS_PER_INCH);
     public double P_DRIVE_COEFF = 0.013;
     private BNO055IMU imu = null;
     private double headingResetValue;
@@ -156,14 +150,14 @@ public class MecanumWheels {
         motor_bl.setPower(0);
     }
 
-    public void timeDrive(double time, double leftDir1, double rightDir1, double leftDir2, double rightDir2, double power) {
-        ElapsedTime runtime = new ElapsedTime();
-        runtime.reset();
-        motor_bl.setPower(leftDir1 * power); motor_fl.setPower(leftDir2 * power);
-        motor_fr.setPower(rightDir2 * power); motor_br.setPower(rightDir1 * power);
-        while (runtime.seconds() < time);
-        motor_br.setPower(0); motor_bl.setPower(0); motor_fr.setPower(0); motor_fl.setPower(0);
-    }
+    //public void timeDrive(double time, double leftDir1, double rightDir1, double leftDir2, double rightDir2, double power) {
+    //    ElapsedTime runtime = new ElapsedTime();
+    //    runtime.reset();
+    //    motor_bl.setPower(leftDir1 * power); motor_fl.setPower(leftDir2 * power);
+    //    motor_fr.setPower(rightDir2 * power); motor_br.setPower(rightDir1 * power);
+    //    while (runtime.seconds() < time);
+    //    motor_br.setPower(0); motor_bl.setPower(0); motor_fr.setPower(0); motor_fl.setPower(0);
+    //}
 
     private double getAbsoluteHeading() {
         return imu.getAngularOrientation(AxesReference.INTRINSIC , AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
@@ -171,12 +165,13 @@ public class MecanumWheels {
     private double getRelativeHeading() {
         return getAbsoluteHeading() - headingResetValue;
     }
+
     private int gyroCorrect(double gyroTarget, double gyroRange, double gyroActual, double minSpeed, double addSpeed) {
         int correctCount = 0;
         double delta = (gyroTarget - gyroActual + 360.0) % 360.0;
         if (delta > 180.0) delta -= 360.0;
         if (Math.abs(delta) > gyroRange) {
-            correctCount = 0;
+            //correctCount = 0;
             double gyroMod = delta / 45.0;
             if (Math.abs(gyroMod) > 1.0) gyroMod = Math.signum(gyroMod);
             turn(minSpeed * Math.signum(gyroMod) + addSpeed * gyroMod);
@@ -202,7 +197,7 @@ public class MecanumWheels {
             heading = getRelativeHeading();
             gyroCorrect(targetDegrees, error, heading, 0.1, maxSpeed - 0.1);
         }
-        runtime.reset(); while (runtime.seconds() < 0.5) {}
+        runtime.reset(); // while (runtime.seconds() < 0.5) {}
         while (gyroCorrect(targetDegrees, error, heading, 0.1, maxSpeed - 0.1) == 0
                 && runtime.seconds() < timeoutInSeconds / 2) {
             heading = getRelativeHeading();

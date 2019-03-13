@@ -1,4 +1,4 @@
-package net.maxdev.ftc.utils;
+package net.maxdev.ftc.archived.utils;
 
 import com.disnodeteam.dogecv.CameraViewDisplay;
 import com.disnodeteam.dogecv.DogeCV;

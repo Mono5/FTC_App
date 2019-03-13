@@ -1,11 +1,13 @@
-package net.maxdev.ftc;
+package net.maxdev.ftc.archived;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import net.maxdev.ftc.utils.DogeGoldVision;
-import net.maxdev.ftc.utils.MecanumWheels;
+import net.maxdev.ftc.archived.utils.DogeGoldVision;
+import net.maxdev.ftc.archived.utils.MecanumWheels;
 
+@Disabled
 @Autonomous(name = "AutoRight", group = "Autonomous")
 public class AutoRight2 extends LinearOpMode {
     private MecanumWheels wheels = null;

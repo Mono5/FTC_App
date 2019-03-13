@@ -1,11 +1,13 @@
-package net.maxdev.ftc.demo;
+package net.maxdev.ftc.archived.demo;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import net.maxdev.ftc.utils.MecanumWheels;
+import net.maxdev.ftc.archived.utils.MecanumWheels;
 
+@Disabled
 @TeleOp(name = "EncoderTest", group = "Debugging")
 public class EncoderTest extends LinearOpMode {
     private MecanumWheels wheels = null;
