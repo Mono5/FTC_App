@@ -1,13 +1,15 @@
-package net.maxdev.ftc;
+package net.maxdev.ftc.archived;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import net.maxdev.ftc.utils.BackControl;
-import net.maxdev.ftc.utils.DogeGoldVision;
-import net.maxdev.ftc.utils.FrontControl;
-import net.maxdev.ftc.utils.MecanumWheels;
+import net.maxdev.ftc.archived.utils.BackControl;
+import net.maxdev.ftc.archived.utils.DogeGoldVision;
+import net.maxdev.ftc.archived.utils.FrontControl;
+import net.maxdev.ftc.archived.utils.MecanumWheels;
 
+@Disabled
 @Autonomous(name = "AutoLeft", group = "Autonomous")
 public class AutoLeft2 extends LinearOpMode {
     private MecanumWheels wheels = null;

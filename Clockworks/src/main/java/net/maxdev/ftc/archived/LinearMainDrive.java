@@ -1,14 +1,16 @@
-package net.maxdev.ftc;
+package net.maxdev.ftc.archived;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import net.maxdev.ftc.utils.BackControl;
-import net.maxdev.ftc.utils.DogeGoldVision;
-import net.maxdev.ftc.utils.FrontControl;
-import net.maxdev.ftc.utils.MecanumWheels;
+import net.maxdev.ftc.archived.utils.BackControl;
+import net.maxdev.ftc.archived.utils.DogeGoldVision;
+import net.maxdev.ftc.archived.utils.FrontControl;
+import net.maxdev.ftc.archived.utils.MecanumWheels;
 
+@Disabled
 @TeleOp(name = "LinearMainDrive", group = "debug")
 public class LinearMainDrive extends LinearOpMode {
     private MecanumWheels wheels = new MecanumWheels();
