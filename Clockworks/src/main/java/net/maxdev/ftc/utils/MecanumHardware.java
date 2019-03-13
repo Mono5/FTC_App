@@ -1,6 +1,7 @@
 package net.maxdev.ftc.utils;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -59,6 +60,19 @@ public class MecanumHardware {
         motor_br.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE); // if the power of the motors is
         motor_fl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE); // set to 0, the motors will try
         motor_fr.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE); // to keep their current position
+
+        // here begins the initialization and calibration of the gyro
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.calibrationDataFile = "BNO055IMUCalibration.json";
+        parameters.loggingEnabled      = false;
+        parameters.loggingTag          = "IMU";
+        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
+
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
+        imu.initialize(parameters);
+        // here ends the initialization and calibration of the gyro
     }
 
     private void normalizePower(double[] power) {
