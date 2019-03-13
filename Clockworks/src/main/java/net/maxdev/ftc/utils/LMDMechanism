@@ -1,0 +1,35 @@
+package net.maxdev.ftc.utils;
+
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+
+public class LMDMechanism{ 
+    private DcMotor elevator = null;
+    private Telemetry telemetry = null;
+
+    public void init(Telemetry telemetry, HardwareMap hardwareMap ){
+        this.telemetry = telemetry;
+        elevator = hardwareMap.get(DcMotor.class, "elevator");
+
+         elevator.setDirection(DcMotorSimple.Direction.FORWARD);  
+         elevator.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+         elevator.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+         elevator.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    }
+
+    public void elevatorMove(boolean isGoingUp, double power){
+        if (isGoingUp){
+            elevator.setTargetPosition(10000); //valoare random necalculata
+            elevator.setPower(power);
+        }
+        else{
+            elevator.setTargetPosition(0);
+            elevator.setPower(power);
+        }
+    }
+
+    public void debug() {
+        telemetry.addData("Elevator Position", elevator.getCurrentPosition());
+    }
+}
