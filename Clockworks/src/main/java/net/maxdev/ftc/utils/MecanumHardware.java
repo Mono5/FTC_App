@@ -98,8 +98,8 @@ public class MecanumHardware {
         double[] speed = new double[4]; //
         double[] error = new double[4]; // declaration of mandatory values
 
-        a = (int) (frontRightInches * COUNTS_PER_INCH); b = (int) (frontLeftInches * COUNTS_PER_INCH); //
-        c = (int) (backRightInches * COUNTS_PER_INCH); d = (int) (backLeftInches * COUNTS_PER_INCH); // initialization of target values
+        a = (int) (frontRightInches * COUNTS_PER_INCH) + motor_fr.getCurrentPosition(); b = (int) (frontLeftInches * COUNTS_PER_INCH) + motor_fl.getCurrentPosition(); //
+        c = (int) (backRightInches * COUNTS_PER_INCH) + motor_br.getCurrentPosition(); d = (int) (backLeftInches * COUNTS_PER_INCH) + motor_bl.getCurrentPosition(); // initialization of target values
 
         while (opMode.opModeIsActive() && (Math.abs(motor_fr.getCurrentPosition() - a) >= DRIVE_THRESHOLD || Math.abs(motor_fl.getCurrentPosition() - b) >= DRIVE_THRESHOLD
                 || Math.abs(motor_br.getCurrentPosition() - c) >= DRIVE_THRESHOLD || Math.abs(motor_bl.getCurrentPosition() - d) >= DRIVE_THRESHOLD)) {
@@ -175,4 +175,7 @@ public class MecanumHardware {
             gyroCorrect(targetDegrees, error, heading, 0.1, maxSpeed - 0.1); //
         }
     }
-} // commit to add new remote branch
+
+    public void debug() {
+    }
+}
