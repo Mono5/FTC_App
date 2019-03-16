@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class LMDMechanism{ 
-    private DcMotor elevator = null;
+    private DcMotor elevator = null;  
     private Telemetry telemetry = null;
 
     public void init(Telemetry telemetry, HardwareMap hardwareMap ){
@@ -29,7 +29,22 @@ public class LMDMechanism{
         }
     }
 
-    public void debug() {
-        telemetry.addData("Elevator Position", elevator.getCurrentPosition());
+    //setting positions overriding the limits
+    public void elevatorOverride(int position, double power ){
+        elevator.setTargetPosition(position);
+        elevator.setPower(power)
     }
+
+    //manually getting and setting  positions **joystick**
+   public void elevatorManual(double power){
+       elevator.setPower(power);
+   }
+
+
+    public void debug() {
+        telemetry.addLine()
+                        .addData("Elevator Position", elevator.getCurrentPosition());
+    }
+
+
 }
