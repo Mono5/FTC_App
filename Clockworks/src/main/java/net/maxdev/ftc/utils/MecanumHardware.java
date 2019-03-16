@@ -103,13 +103,13 @@ public class MecanumHardware {
 
         while (opMode.opModeIsActive() && (Math.abs(motor_fr.getCurrentPosition() - a) >= DRIVE_THRESHOLD || Math.abs(motor_fl.getCurrentPosition() - b) >= DRIVE_THRESHOLD
                 || Math.abs(motor_br.getCurrentPosition() - c) >= DRIVE_THRESHOLD || Math.abs(motor_bl.getCurrentPosition() - d) >= DRIVE_THRESHOLD)) {
-            error[0] = a + motor_fr.getCurrentPosition();
+            error[0] = a - motor_fr.getCurrentPosition();
             speed[0] = Range.clip(error[0] * P_DRIVE_COEFF, -maxSpeed, maxSpeed);
-            error[1] = b + motor_fl.getCurrentPosition();
+            error[1] = b - motor_fl.getCurrentPosition();
             speed[1] = Range.clip(error[1] * P_DRIVE_COEFF, -maxSpeed, maxSpeed);
-            error[2] = c + motor_br.getCurrentPosition();
+            error[2] = c - motor_br.getCurrentPosition();
             speed[2] = Range.clip(error[2] * P_DRIVE_COEFF, -maxSpeed, maxSpeed);
-            error[3] = d + motor_bl.getCurrentPosition();
+            error[3] = d - motor_bl.getCurrentPosition();
             speed[3] = Range.clip(error[3] * P_DRIVE_COEFF, -maxSpeed, maxSpeed);
 
             motor_fr.setPower(speed[0]);
